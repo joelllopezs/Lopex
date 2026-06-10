@@ -1,5 +1,3 @@
-
-// ── Generic scroll reveal ──
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {

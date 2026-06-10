@@ -70,66 +70,44 @@ nav {
 /* ── HERO ── */
 .hero {
   min-height:100vh;
-  display:grid; grid-template-columns:1fr 1fr;
-  align-items:center; gap:40px;
+  display:flex; flex-direction:column; justify-content:center;
   padding:120px 60px 80px;
   position:relative; overflow:hidden;
-}
-.hero-content { display:flex; flex-direction:column; position:relative; z-index:1; }
-.hero-visual {
-  position:relative; height:480px;
-  display:flex; align-items:center; justify-content:center;
-  z-index:1;
 }
 .hero-bg-glow {
   position:absolute; top:-100px; right:-100px;
   width:700px; height:700px;
   background:radial-gradient(ellipse,rgba(100,60,220,.18) 0%,transparent 65%);
   pointer-events:none;
+  animation:glowDrift1 14s ease-in-out infinite;
 }
 .hero-bg-glow2 {
   position:absolute; bottom:-200px; left:-100px;
   width:500px; height:500px;
   background:radial-gradient(ellipse,rgba(60,30,150,.12) 0%,transparent 70%);
   pointer-events:none;
+  animation:glowDrift2 18s ease-in-out infinite;
 }
-
-/* Gear animations */
-@keyframes floatY    { 0%,100%{transform:translateY(0)}   50%{transform:translateY(-18px)} }
-@keyframes floatYRev { 0%,100%{transform:translateY(0)}   50%{transform:translateY(14px)} }
-@keyframes spinCW    { from{transform:rotate(0deg)}        to{transform:rotate(360deg)} }
-@keyframes spinCCW   { from{transform:rotate(0deg)}        to{transform:rotate(-360deg)} }
-@keyframes gearFadeIn{ from{opacity:0;transform:scale(.7)} to{opacity:1;transform:scale(1)} }
-@keyframes orbitPulse{ 0%,100%{opacity:.25} 50%{opacity:.55} }
-
-.hero-gears-wrap {
-  position:absolute; inset:0;
-  opacity:0; animation:gearFadeIn .9s .55s forwards;
+@keyframes glowDrift1 {
+  0%,100% { transform:translate(0,0) scale(1); opacity:1; }
+  50% { transform:translate(-40px,40px) scale(1.12); opacity:.8; }
 }
-
-/* Float containers — position each group */
-.gf-main  { position:absolute; top:50%; left:50%; transform:translate(-50%,-52%);
-             animation:floatY 5s ease-in-out infinite; }
-.gf-tl    { position:absolute; top:6%; left:8%;
-             animation:floatYRev 6.5s ease-in-out infinite; }
-.gf-tr    { position:absolute; top:4%; right:4%;
-             animation:floatY 7s 1s ease-in-out infinite; }
-.gf-bl    { position:absolute; bottom:10%; left:12%;
-             animation:floatYRev 5.5s .5s ease-in-out infinite; }
-.gf-br    { position:absolute; bottom:8%; right:8%;
-             animation:floatY 6s 1.5s ease-in-out infinite; }
-.gf-mid   { position:absolute; top:18%; right:22%;
-             animation:floatYRev 8s .8s ease-in-out infinite; }
-
-/* Spin wrappers (nested inside float) */
-.spin-cw  { animation:spinCW  12s linear infinite; transform-origin:center; display:block; }
-.spin-ccw { animation:spinCCW 9s  linear infinite; transform-origin:center; display:block; }
-.spin-cw-slow  { animation:spinCW  20s linear infinite; transform-origin:center; display:block; }
-.spin-ccw-fast { animation:spinCCW 6s  linear infinite; transform-origin:center; display:block; }
-
-/* Orbit ring pulse */
-.orbit-ring { animation:orbitPulse 3s ease-in-out infinite; }
-
+@keyframes glowDrift2 {
+  0%,100% { transform:translate(0,0) scale(1); opacity:1; }
+  50% { transform:translate(40px,-30px) scale(1.15); opacity:.85; }
+}
+.hero-cog {
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+}
+.hero-cog svg { width:100%; height:100%; display:block; }
+.hero-dot {
+  position:absolute; width:4px; height:4px; border-radius:50%;
+  background:var(--purple); pointer-events:none; z-index:0;
+  animation:dotTwinkle 4s ease-in-out infinite;
+}
+@keyframes dotTwinkle { 0%,100%{opacity:.15} 50%{opacity:.6} }
 .hero-eyebrow {
   font-size:10px; letter-spacing:4px; color:var(--purple);
   font-weight:700; text-transform:uppercase; margin-bottom:24px;
@@ -572,7 +550,14 @@ section { padding:100px 60px; position:relative; }
   margin:0 auto 48px; line-height:1.6; font-weight:300;
   position:relative; z-index:1;
 }
-.cta-actions { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; position:relative; z-index:1; }
+.cta-actions {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  position:relative;
+  z-index:1;
+}
 .btn-cta {
   background:var(--purple); color:#fff; border:none;
   padding:18px 48px;
@@ -600,6 +585,51 @@ footer {
 .footer-links a:hover { color:var(--purple-bright); }
 .footer-copy { font-size:10px; color:var(--gray-dim); letter-spacing:1px; }
 
+/* ── QUEM SOMOS / GEARS ── */
+.about-layout {
+  display:grid; grid-template-columns:1.1fr .9fr;
+  gap:80px; margin-top:60px; align-items:center;
+}
+.about-text p {
+  font-size:15px; color:var(--gray); line-height:1.85;
+  font-weight:300; margin-top:18px;
+}
+.about-text p:first-of-type { margin-top:24px; }
+.gears-wrap {
+  display:flex; align-items:center; justify-content:center;
+  position:relative; min-height:300px;
+  overflow:hidden;
+}
+.gears-svg { width:100%; max-width:340px; height:auto; }
+.gear-a { transform-origin:16px 16px; animation:gearSpin 14s linear infinite; }
+.gear-b { transform-origin:16px 16px; animation:gearSpinRev 9s linear infinite; }
+.gear-c { transform-origin:16px 16px; animation:gearSpin 7s linear infinite; }
+
+/* ── O QUE FAZEMOS / AUTOMATION GRID ── */
+.automation-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:16px; margin-top:60px;
+}
+.automation-item {
+  background:var(--card-bg); border:1px solid var(--card-border);
+  border-radius:10px; padding:24px 22px;
+  display:flex; align-items:center; gap:16px;
+  transition:border-color .25s, background .25s, transform .25s;
+}
+.automation-item:hover {
+  border-color:rgba(155,126,255,.3); background:rgba(155,126,255,.06);
+  transform:translateY(-3px);
+}
+.automation-icon {
+  font-size:20px; flex-shrink:0; width:44px; height:44px;
+  border-radius:10px; background:rgba(155,126,255,.1);
+  border:1px solid rgba(155,126,255,.2);
+  display:flex; align-items:center; justify-content:center;
+  transition:all .25s;
+}
+.automation-item:hover .automation-icon { background:rgba(155,126,255,.2); transform:scale(1.08); }
+.automation-label { font-size:14px; font-weight:600; color:#fff; letter-spacing:.2px; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
@@ -612,8 +642,8 @@ footer {
 ══════════════════════════════════════════ */
 @media (max-width:900px) {
   nav { padding:16px 28px; }
-  .hero { padding:100px 28px 70px; grid-template-columns:1fr; }
-  .hero-visual { height:280px; margin-top:20px; }
+  .hero { padding:100px 28px 70px; }
+  .hero-cog, .hero-dot { display:none; }
   .hero-scroll { left:28px; }
   section { padding:72px 28px; }
   .numbers-band { padding:36px 28px; grid-template-columns:repeat(2,1fr); gap:0; }
@@ -631,6 +661,10 @@ footer {
   .steps-timeline::before { display:none; }
   .services-grid { grid-template-columns:1fr; gap:16px; }
   .proof-grid { grid-template-columns:1fr; gap:16px; }
+  .about-layout { grid-template-columns:1fr; gap:48px; }
+  .gears-wrap { order:-1; min-height:220px; }
+  .gears-svg { max-width:280px; }
+  .automation-grid { grid-template-columns:repeat(2,1fr); }
   .cta-final { padding:80px 28px; }
   footer { padding:24px 28px; }
   .footer-links { display:none; }
@@ -644,13 +678,7 @@ footer {
   .nav-logo { font-size:22px; }
   .nav-cta { padding:8px 16px; font-size:10px; letter-spacing:1px; }
   .ticker-wrap { margin-top:58px; }
-  .hero { padding:80px 20px 60px; min-height:auto; padding-top:90px; grid-template-columns:1fr; }
-  .hero-visual { height:220px; margin-top:12px; }
-  .gf-main  { top:50%; left:50%; transform:translate(-50%,-52%) scale(.75); }
-  .gf-tl    { top:2%; left:2%; }
-  .gf-tr    { top:2%; right:2%; }
-  .gf-bl    { bottom:4%; left:4%; }
-  .gf-br    { bottom:4%; right:4%; }
+  .hero { padding:80px 20px 60px; min-height:auto; padding-top:90px; }
   .hero-eyebrow { font-size:9px; letter-spacing:3px; margin-bottom:16px; }
   .hero-headline { font-size:clamp(38px,11vw,54px); line-height:1; }
   .hero-sub { font-size:14px; margin-top:20px; max-width:100%; }
@@ -682,6 +710,11 @@ footer {
   .proof-grid { grid-template-columns:1fr; }
   .proof-card { padding:22px 18px; }
   .proof-result { font-size:18px; top:16px; right:16px; }
+  .gears-wrap { min-height:180px; }
+  .gears-svg { max-width:220px; }
+  .about-text p { font-size:13px; }
+  .automation-grid { grid-template-columns:1fr; gap:10px; }
+  .automation-item { padding:18px 18px; }
   .cta-final { padding:64px 20px; }
   .cta-big { font-size:clamp(32px,9vw,52px); line-height:1; }
   .cta-sub { font-size:14px; }
